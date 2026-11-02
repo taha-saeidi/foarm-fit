@@ -20,7 +20,7 @@
   ],
   "vars": {
     "APP_ORIGIN": "https://formfit.YOUR-SUBDOMAIN.workers.dev",
-    "ALLOW_REGISTRATION": "false",
+    "ALLOW_REGISTRATION": "true",
     "GOOGLE_CLIENT_ID": ""
   },
   "observability": {

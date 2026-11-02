@@ -18,7 +18,7 @@ export async function POST(req:Request){
  let video='';if(b.video){const v=b.video;if(!validSourceId(v.provider,v.id))return response({error:'ویدئوی نامعتبر'},400); video=JSON.stringify({provider:v.provider,id:v.id,title:String(v.title||'').slice(0,240),author:String(v.author||'').slice(0,120),page:safeTrainingPage(v.provider,v.page||'')});}
  const item={id:crypto.randomUUID(),userId:user.userId,name:b.name.trim(),day:b.day,sets:b.sets,reps:b.reps,video,notes:String(b.notes||'').slice(0,3000),completed:false,createdAt:new Date().toISOString()};
  await getDb().insert(exercises).values(item);return response({item},201);
- }catch{return response({error:'ذخیره انجام نشد. اتصال را بررسی کنید.'},500);}
+ }catch{return response({error:'ذخیره انجام نشد. اتصال را بررسی کنید.'},503);}
 }
 export async function PATCH(req:Request){return mutate(req,false)}
 export async function DELETE(req:Request){return mutate(req,true)}
@@ -31,5 +31,5 @@ async function mutate(req:Request,remove:boolean){
 
  const result=remove?await getDb().delete(exercises).where(where).returning({id:exercises.id}):await getDb().update(exercises).set(changes).where(where).returning({id:exercises.id});
  return result.length?response({ok:true}):response({error:'حرکت پیدا نشد'},404);
- }catch{return response({error:'تغییر ذخیره نشد'},500);}
+ }catch{return response({error:'تغییر ذخیره نشد'},503);}
 }
